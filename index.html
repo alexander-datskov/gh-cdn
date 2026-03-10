@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GH·CDN · modern edge</title>
+  <title>GH·CDN · jsDelivr edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,600;1,400&family=Syne:wght@600;800&display=swap" rel="stylesheet">
   <style>
+    /* Same modern CSS as before – keep it clean */
     :root { --bg:#0b0f14; --surface:#131920; --surface-hover:#1a212b; --border:#2a313c; --border-light:#323b48; --accent:#2bd4ff; --secondary:#9b87f5; --text-main:#e3e9f2; --text-muted:#8895aa; --text-dim:#5f6b7f; --success:#3dd68c; --error:#ff5a6e; --warn:#f4b740; --mono:'Space Mono',monospace; --display:'Syne',sans-serif; --radius-card:20px; --radius-btn:40px; }
     *{box-sizing:border-box;margin:0;padding:0;}
     body{background:var(--bg);color:var(--text-main);font-family:var(--mono);line-height:1.6;min-height:100vh;display:flex;flex-direction:column;letter-spacing:-0.01em;}
@@ -74,13 +75,13 @@
   <header class="header">
     <div class="logo-row">
       <span class="logo">GH·CDN</span>
-      <span class="version">v2 edge</span>
+      <span class="version">jsDelivr</span>
     </div>
-    <div class="tagline">cloudflare workers · github raw → cdn</div>
+    <div class="tagline">github files via jsDelivr – no backend needed</div>
     <div class="pill-row">
       <span class="pill live"><span class="dot"></span> live</span>
-      <span class="pill cors">cors enabled</span>
-      <span class="pill edge">edge cached</span>
+      <span class="pill cors">cors ready</span>
+      <span class="pill edge">global cdn</span>
     </div>
   </header>
 
@@ -95,7 +96,7 @@
 
     <div id="result">
       <div class="result-top">
-        <span class="result-status" id="result-label">CDN url</span>
+        <span class="result-status" id="result-label">jsDelivr URL</span>
         <div class="result-actions">
           <button class="icon-btn" id="open-btn" onclick="openUrl()">↗ open</button>
           <button class="icon-btn" id="copy-btn" onclick="copyUrl()">⎘ copy</button>
@@ -110,27 +111,13 @@
   </div>
 
   <div class="section">
-    <div class="section-title">routes</div>
+    <div class="section-title">how it works</div>
     <ul class="route-list">
       <li class="route">
         <span class="method">GET</span>
         <div>
-          <div class="route-path">/gh/raw/{user}/{repo}@{branch}/{file}</div>
-          <div class="route-desc">Serves any file with correct MIME.<br> <strong>JS/TS/JSX</strong> → <code>application/javascript</code> (executable)<br> <strong>HTML</strong> → server‑side resource rewrite (favicons, css, images) + js shim<br> <strong>CSS, JSON, WASM, fonts, images</strong> → correct MIME & binary passthrough.<br> Branch can be name, tag, SHA, or full <code>refs/heads/</code>.</div>
-        </div>
-      </li>
-      <li class="route">
-        <span class="method">OPTIONS</span>
-        <div>
-          <div class="route-path">* (preflight)</div>
-          <div class="route-desc">Full CORS headers, always 204.</div>
-        </div>
-      </li>
-      <li class="route">
-        <span class="method">GET</span>
-        <div>
-          <div class="route-path">/</div>
-          <div class="route-desc">This clean generator UI.</div>
+          <div class="route-path">https://cdn.jsdelivr.net/gh/{user}/{repo}@{branch}/{file}</div>
+          <div class="route-desc">Serves any file with correct MIME and CORS – automatically handled by jsDelivr.</div>
         </div>
       </li>
     </ul>
@@ -142,75 +129,90 @@
       <div class="feature">
         <div class="feature-icon">⚡</div>
         <div class="feature-title">Correct MIME</div>
-        <div class="feature-body">JS served as <code>application/javascript</code> – never text/plain.</div>
+        <div class="feature-body">jsDelivr sets proper content types.</div>
       </div>
       <div class="feature">
         <div class="feature-icon">🌐</div>
         <div class="feature-title">Full CORS</div>
-        <div class="feature-body"><code>Access-Control-Allow-Origin: *</code> on every response.</div>
+        <div class="feature-body">All responses include <code>Access-Control-Allow-Origin: *</code>.</div>
       </div>
       <div class="feature">
         <div class="feature-icon">🖼️</div>
         <div class="feature-title">Asset rewriting</div>
-        <div class="feature-body">Favicons, manifests, stylesheets – rewritten server‑side.</div>
+        <div class="feature-body">Not needed – jsDelivr serves raw files; your HTML must use absolute paths.</div>
       </div>
       <div class="feature">
         <div class="feature-icon">🔧</div>
-        <div class="feature-title">HTML compiler</div>
-        <div class="feature-body">Server rewrite + MutationObserver for dynamic resources.</div>
+        <div class="feature-title">No shim required</div>
+        <div class="feature-body">Pure static – works out of the box.</div>
       </div>
       <div class="feature">
         <div class="feature-icon">📦</div>
         <div class="feature-title">Any ref</div>
-        <div class="feature-body">Branch, tag, commit SHA, or full ref like <code>refs/heads/main</code>.</div>
+        <div class="feature-body">Branch, tag, commit SHA – just put it after <code>@</code>.</div>
       </div>
       <div class="feature">
         <div class="feature-icon">🚀</div>
-        <div class="feature-title">Edge cached</div>
-        <div class="feature-body">30s fresh, then stale-while-revalidate.</div>
+        <div class="feature-title">Global CDN</div>
+        <div class="feature-body">jsDelivr is fast and reliable.</div>
       </div>
     </div>
   </div>
 
   <footer>
-    <span>GH·CDN v2.6 — Cloudflare Workers</span>
-    <a href="https://still-queen-96d0.liquidxx.workers.dev/">https://still-queen-96d0.liquidxx.workers.dev/</a>
+    <span>GH·CDN · jsDelivr edition</span>
+    <a href="https://www.jsdelivr.com/">jsDelivr</a>
   </footer>
 </div>
 
 <script>
-  // 👇 Replace this with your actual Cloudflare Worker URL
-  var WORKER_ORIGIN = "https://still-queen-96d0.liquidxx.workers.dev";
   var _lastUrl = "";
+  // jsDelivr base
+  const JSDELIVR_ORIGIN = "https://cdn.jsdelivr.net";
 
   function parseGhUrl(raw) {
     raw = raw.trim();
     if (!raw) return null;
-    if (raw.startsWith(WORKER_ORIGIN)) {
+
+    // Already a jsDelivr URL?
+    if (raw.startsWith(JSDELIVR_ORIGIN + "/gh/")) {
       return { full: raw, meta: extractMeta(raw) };
     }
+
     var user, repo, branch, file, m;
+
+    // raw.githubusercontent.com
     m = raw.match(/raw\.githubusercontent\.com\/([^\/]+)\/([^\/]+)\/([^\/]+)\/(.+)/);
     if (m) { user=m[1]; repo=m[2]; branch=m[3]; file=m[4]; }
+
+    // github.com/blob
     if (!user) {
       m = raw.match(/github\.com\/([^\/]+)\/([^\/]+)\/blob\/([^\/]+)\/(.+)/);
       if (m) { user=m[1]; repo=m[2]; branch=m[3]; file=m[4]; }
     }
+
+    // github.com/raw
     if (!user) {
       m = raw.match(/github\.com\/([^\/]+)\/([^\/]+)\/raw\/([^\/]+)\/(.+)/);
       if (m) { user=m[1]; repo=m[2]; branch=m[3]; file=m[4]; }
     }
+
+    // github.com/tree (usually for directories, but we take the first file)
     if (!user) {
       m = raw.match(/github\.com\/([^\/]+)\/([^\/]+)\/tree\/([^\/]+)\/(.+)/);
       if (m) { user=m[1]; repo=m[2]; branch=m[3]; file=m[4]; }
     }
+
     if (!user) return null;
-    var full = WORKER_ORIGIN + "/gh/raw/" + user + "/" + repo + "@" + branch + "/" + file;
+
+    // Build jsDelivr URL
+    var full = `${JSDELIVR_ORIGIN}/gh/${user}/${repo}@${branch}/${file}`;
     return { full: full, meta: { user: user, repo: repo, branch: branch, file: file } };
   }
 
   function extractMeta(cdnUrl) {
-    var m = cdnUrl.match(/\/gh\/raw\/([^\/]+)\/([^@]+)@([^\/]+)\/(.+)$/);
+    // jsDelivr pattern: https://cdn.jsdelivr.net/gh/user/repo@branch/file
+    var m = cdnUrl.match(/\/gh\/([^\/]+)\/([^@]+)@([^\/]+)\/(.+)$/);
     if (!m) return null;
     return { user: m[1], repo: m[2], branch: m[3], file: m[4] };
   }
@@ -221,9 +223,10 @@
 
   function renderUrl(full, meta) {
     if (!meta) return '<span style="color:var(--accent)">' + esc(full) + '</span>';
+    // Colourful segments
     return (
-      '<span class="seg-origin">' + WORKER_ORIGIN + '</span>' +
-      '<span class="seg-route">/gh/raw/</span>' +
+      '<span class="seg-origin">https://cdn.jsdelivr.net</span>' +
+      '<span class="seg-route">/gh/</span>' +
       '<span class="seg-user">'   + esc(meta.user)   + '</span>' +
       '<span class="seg-slash">/</span>' +
       '<span class="seg-repo">'   + esc(meta.repo)   + '</span>' +
@@ -275,7 +278,7 @@
 
     _lastUrl = parsed.full;
     result.className = "show ok";
-    label.textContent = "✓ ready for edge";
+    label.textContent = "✓ jsDelivr URL ready";
     outEl.innerHTML  = renderUrl(parsed.full, parsed.meta);
     chips.innerHTML  = renderChips(parsed.meta);
   }
@@ -316,7 +319,7 @@
       if (!res.ok) throw new Error("GitHub API error: " + res.status);
       var data = await res.json();
       var id = data.id;
-      var idUrl = WORKER_ORIGIN + "/gh/raw/" + id + "/" + meta.repo + "@" + meta.branch + "/" + meta.file;
+      var idUrl = `https://cdn.jsdelivr.net/gh/${id}/${meta.repo}@${meta.branch}/${meta.file}`;
 
       await navigator.clipboard.writeText(idUrl);
       btn.textContent = "✓ ID copied";
